@@ -49,7 +49,7 @@
       </v-list>
       <template v-slot:append>
         <div id="copyright">
-          &copy; 2021 <a href="https://github.com/PotatoChipsNinja/TLE-Analyzer" target="_blank">A/C Dashboard</a>
+          &copy; 2021 <a href="https://github.com/PotatoChipsNinja/AC-Dashboard" target="_blank">A/C Dashboard</a>
           <br/>
           All Rights Reserved.
         </div>
