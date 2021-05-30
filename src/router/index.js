@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Home from '../views/Home.vue'
-import About from '../views/About.vue'
+import Status from '../views/Status.vue'
 
 Vue.use(VueRouter)
 
@@ -16,8 +16,8 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    component: About
+    path: '/status',
+    component: Status
   }
 ]
 
