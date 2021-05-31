@@ -8,8 +8,15 @@
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
+      <div v-show="username" class="font-weight-light mx-1">
+        {{ username }}
+      </div>
       <v-btn icon @click="logout" v-show="username">
         <v-icon>mdi-logout-variant</v-icon>
+      </v-btn>
+
+      <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark" v-show="username">
+        <v-icon v-text="$vuetify.theme.dark ? 'mdi-brightness-7' : 'mdi-brightness-4'"></v-icon>
       </v-btn>
     </v-app-bar>
 
@@ -72,8 +79,8 @@
       </v-list>
 
       <template v-slot:append>
-        <div id="copyright">
-          &copy; 2021 <a href="https://github.com/PotatoChipsNinja/AC-Dashboard" target="_blank">A/C Dashboard</a>
+        <div id="copyright" class="text--secondary">
+          &copy; {{ new Date().getFullYear() }} <a href="https://github.com/PotatoChipsNinja/AC-Dashboard" target="_blank">A/C Dashboard</a>
           <br/>
           All Rights Reserved.
         </div>
