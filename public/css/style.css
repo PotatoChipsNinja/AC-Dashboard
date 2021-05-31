@@ -1,12 +1,29 @@
 #copyright {
-    position: absolute;
-    bottom: 10px;
-    width: 250px;
-    text-align: center;
-    font-size: 90%;
-  }
-  
-  #copyright a {
-    color: unset;
-    text-decoration: none;
-  }
+  position: absolute;
+  bottom: 10px;
+  width: 250px;
+  text-align: center;
+  font-size: 90%;
+}
+
+#copyright a {
+  color: unset;
+  text-decoration: none;
+}
+
+.inactive-blue .v-input--selection-controls__input {
+  color: #2196f3 !important;
+}
+
+.inactive-blue .v-input--switch__track {
+  color: #2196f3 !important;
+}
+
+.inactive-blue .v-input--switch__thumb {
+  color: #2196f3 !important;
+}
+
+.temp-slider .v-slider__track-background.primary.lighten-3 {
+  background-color: #e0e0e0 !important;
+  border-color: #e0e0e0 !important;
+}
