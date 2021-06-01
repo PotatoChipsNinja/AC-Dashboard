@@ -135,9 +135,6 @@
 
     mounted: function () {
       this.username = localStorage.getItem('username')
-      if (!this.username && this.$route.path != '/login' && this.$route.path != '/register') {
-        this.$router.replace('/login')
-      }
     },
 
     methods: {

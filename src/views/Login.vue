@@ -71,12 +71,6 @@
           this.$router.replace('/')
         }
       }
-    },
-
-    mounted: function () {
-      if (localStorage.getItem('username')) {
-        this.$router.replace('/')
-      }
     }
   }
 </script>

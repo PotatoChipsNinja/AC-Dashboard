@@ -32,4 +32,15 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  let username = localStorage.getItem('username')
+  if (!username && to.path != '/login') {
+    next('/login')
+  } else if (username && to.path == '/login') {
+    next('/')
+  } else {
+    next()
+  }
+})
+
 export default router
