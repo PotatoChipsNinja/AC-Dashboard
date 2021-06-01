@@ -15,14 +15,14 @@
         <v-icon>mdi-logout-variant</v-icon>
       </v-btn>
 
-      <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark" v-show="username">
+      <v-btn icon @click="$vuetify.theme.dark = !$vuetify.theme.dark">
         <v-icon v-text="$vuetify.theme.dark ? 'mdi-brightness-7' : 'mdi-brightness-4'"></v-icon>
       </v-btn>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app clipped>
       <v-list nav dense v-show="!username">
-        <v-list-item-group active-class="deep-purple--text text--accent-4">
+        <v-list-item-group color="primary">
           <v-list-item to="/login">
             <v-list-item-icon>
               <v-icon>mdi-home</v-icon>
