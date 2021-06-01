@@ -1,8 +1,8 @@
 <template>
   <div class="d-flex justify-center" style="height: 100%">
     <v-col cols="6" align-self="center">
-      <v-card class="overflow-hidden" color="cyan lighten-1" dark>
-        <v-toolbar flat color="cyan">
+      <v-card class="overflow-hidden" color="login lighten-1" dark>
+        <v-toolbar flat color="login">
           <v-icon>mdi-login-variant</v-icon>
           <v-toolbar-title class="font-weight-light ml-2">
             管理员登录

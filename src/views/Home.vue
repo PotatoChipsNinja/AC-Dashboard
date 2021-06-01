@@ -27,7 +27,7 @@
         cols="6"
       >
         <v-card
-          :color="item.color"
+          :color="!$vuetify.theme.dark ? item.color : ''"
           dark
         >
           <div class="d-flex flex-no-wrap justify-space-between">
