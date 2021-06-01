@@ -27,3 +27,8 @@
   background-color: #e0e0e0 !important;
   border-color: #e0e0e0 !important;
 }
+
+.roomTable td {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
