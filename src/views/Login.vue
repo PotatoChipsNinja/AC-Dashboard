@@ -10,6 +10,7 @@
         </v-toolbar>
         <v-card-text>
           <v-text-field
+            tabindex="1"
             v-model="inputUsername"
             color="white"
             prepend-icon="mdi-account"
@@ -19,6 +20,7 @@
             clearable
           ></v-text-field>
           <v-text-field
+            tabindex="2"
             v-model="inputPassword"
             color="white"
             prepend-icon="mdi-form-textbox-password"
@@ -34,7 +36,7 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="indigo" @click="login">
+          <v-btn tabindex="3" color="loginBtn" @click="login">
             登录
           </v-btn>
         </v-card-actions>

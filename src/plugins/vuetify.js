@@ -8,11 +8,13 @@ export default new Vuetify({
       themes: {
         light: {
           bar: '#3f51b5',
-          login: '#00695C'
+          login: '#00695c',
+          loginBtn: '#00594c'
         },
         dark: {
           bar: '#37474f',
-          login: '#263238'
+          login: '#263238',
+          loginBtn: '#546e7a'
         }
       }
     }
