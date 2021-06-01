@@ -52,20 +52,6 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-        
-        <v-snackbar v-model="snackbar" bottom color="primary" text>
-          密码修改成功
-          <template v-slot:action="{ attrs }">
-            <v-btn
-              color="success"
-              text
-              v-bind="attrs"
-              @click="snackbar = false"
-            >
-              关闭
-            </v-btn>
-          </template>
-        </v-snackbar>
       </v-col>
     </v-row>
   </v-container>
@@ -91,8 +77,7 @@
         old: false,
         new: false,
         repeat: false
-      },
-      snackbar: false
+      }
     }),
 
     methods: {
@@ -111,7 +96,7 @@
           // 上传新密码
           let success = true
           if (success) {
-            this.snackbar = true
+            this.$toast.success('密码修改成功')
             this.input.old = ''
             this.input.new = ''
             this.input.repeat = ''

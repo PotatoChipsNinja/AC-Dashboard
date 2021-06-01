@@ -246,6 +246,7 @@
           })
           .catch((err) => {
             console.log(err)
+            this.$toast.error('与服务器连接出错')
           })
           .then(() => {
             this.loading = false
