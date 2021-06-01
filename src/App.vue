@@ -29,13 +29,6 @@
             </v-list-item-icon>
             <v-list-item-title>登录</v-list-item-title>
           </v-list-item>
-
-          <v-list-item to="/register">
-            <v-list-item-icon>
-              <v-icon>mdi-account</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>注册</v-list-item-title>
-          </v-list-item>
         </v-list-item-group>
       </v-list>
 
