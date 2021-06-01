@@ -85,8 +85,12 @@
 </template>
 
 <script>
+  const APIHost = 'http://zekin.wang:8000'
+
   export default {
     name: 'App',
+
+    APIHost,
 
     data: () => ({
       drawer: true,
