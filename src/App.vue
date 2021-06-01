@@ -8,7 +8,7 @@
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <div v-show="username" class="font-weight-light mx-1">
+      <div v-show="username" class="text-subtitle-1 font-weight-light mx-1" style="cursor: default">
         {{ username }}
       </div>
       <v-btn icon @click="logout" v-show="username">
