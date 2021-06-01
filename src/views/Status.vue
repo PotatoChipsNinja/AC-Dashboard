@@ -6,7 +6,7 @@
       <v-col style="max-width: 32rem">
         <v-card>
           <v-card-title>
-            主机
+            主机概况
           </v-card-title>
 
           <v-divider></v-divider>
@@ -118,16 +118,20 @@
       }
     }),
 
+    mounted: function () {
+      this.getInfo()
+    },
+
     methods: {
-      edit: function () {
-        this.edited.modeWarm = this.saved.modeWarm
-        this.edited.temp = this.saved.temp
-        this.editing = true
-      },
       getInfo: function () {
         this.isRunning = true
         this.saved.modeWarm = true
         this.saved.temp = 26
+      },
+      edit: function () {
+        this.edited.modeWarm = this.saved.modeWarm
+        this.edited.temp = this.saved.temp
+        this.editing = true
       },
       apply: function () {
         this.loading = true
