@@ -80,7 +80,7 @@
 
           <v-card-actions v-if="!editing">
             <v-spacer></v-spacer>
-            <v-btn text color="success" @click="edit">
+            <v-btn text color="primary" @click="edit">
               编辑
             </v-btn>
           </v-card-actions>
@@ -95,32 +95,6 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-<!--
-        <v-card
-          class="mx-auto"
-          max-width="344"
-        >
-          <v-card-text>
-            <div>Word of the Day</div>
-            <p class="display-1 text--primary">
-              el·ee·mos·y·nar·y
-            </p>
-            <p>adjective</p>
-            <div class="text--primary">
-              relating to or dependent on charity; charitable.<br>
-              "an eleemosynary educational institution."
-            </div>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              text
-              color="teal accent-4"
-            >
-              Learn More
-            </v-btn>
-          </v-card-actions>
-        </v-card>
--->
       </v-col>
     </v-row>
   </v-container>
