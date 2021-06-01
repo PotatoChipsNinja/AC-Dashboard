@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import Home from '../views/Home.vue'
 import Status from '../views/Status.vue'
 import Monitor from '../views/Monitor.vue'
+import Passwd from '../views/Passwd.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,10 @@ const routes = [
   {
     path: '/monitor',
     component: Monitor
+  },
+  {
+    path: '/passwd',
+    component: Passwd
   }
 ]
 
