@@ -1,0 +1,256 @@
+<template>
+  <v-container>
+    <div class="text-h5 my-2">请求记录查询</div>
+    <v-divider></v-divider>
+    <v-row class="mt-2">
+      <v-col style="max-width: 34rem">
+        <v-card>
+          <v-card-text class="px-8">
+            <v-row align="center">
+              <v-col cols="3" class="py-0">
+                <v-subheader>
+                  时间粒度
+                </v-subheader>
+              </v-col>
+              <v-col cols="9" class="py-0">
+                <v-radio-group v-model="type" row>
+                  <v-radio
+                    v-for="n in 3"
+                    :key="n-1"
+                    :label="strType[n-1]"
+                    :value="n-1"
+                  ></v-radio>
+                </v-radio-group>
+              </v-col>
+
+              <v-col cols="3" class="py-0">
+                <v-subheader>
+                  时间选择
+                </v-subheader>
+              </v-col>
+              <v-col cols="9" class="py-0">
+                <v-dialog
+                  v-if="type == 0"
+                  ref="dialogDay"
+                  v-model="modal"
+                  :return-value.sync="dateDay"
+                  persistent
+                  width="26rem"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      :value="dateDay"
+                      label="选择日期"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="dateDay"
+                    scrollable
+                    locale="zh"
+                    width="26rem"
+                  >
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="modal = false"
+                    >
+                      取消
+                    </v-btn>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="$refs.dialogDay.save(dateDay)"
+                    >
+                      确定
+                    </v-btn>
+                  </v-date-picker>
+                </v-dialog>
+
+                <v-dialog
+                  v-else-if="type == 1"
+                  ref="dialogWeek"
+                  v-model="modal"
+                  :return-value.sync="dateWeek"
+                  persistent
+                  width="26rem"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      :value="dateWeek[0] + ' 至 ' + dateWeek[6]"
+                      label="选择日期"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="dateWeek"
+                    @input="pick"
+                    multiple
+                    scrollable
+                    no-title
+                    locale="zh"
+                    width="26rem"
+                  >
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="modal = false"
+                    >
+                      取消
+                    </v-btn>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="$refs.dialogWeek.save(dateWeek)"
+                    >
+                      确定
+                    </v-btn>
+                  </v-date-picker>
+                </v-dialog>
+
+                <v-dialog
+                  v-else
+                  ref="dialogMonth"
+                  v-model="modal"
+                  :return-value.sync="dateMonth"
+                  persistent
+                  width="20rem"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="dateMonth"
+                      label="选择日期"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="dateMonth"
+                    type="month"
+                    scrollable
+                    locale="zh"
+                    width="20rem"
+                  >
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="modal = false"
+                    >
+                      取消
+                    </v-btn>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="$refs.dialogMonth.save(dateMonth)"
+                    >
+                      确定
+                    </v-btn>
+                  </v-date-picker>
+                </v-dialog>
+              </v-col>
+            </v-row>
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn text color="success" :loading="loading" @click="apply">
+              查询
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<script>
+  export default {
+    name: 'Query',
+
+    data: () => ({
+      dateDay: null,
+      dateWeek: [],
+      dateMonth: null,
+      modal: false,
+      type: 0,
+      strType: ['日报表', '周报表', '月报表'],
+      loading: false
+    }),
+
+    mounted: function () {
+      let today = new Date()
+      this.dateDay = this.formatDate(today)
+      this.pick([this.formatDate(today)])
+      this.dateMonth = today.getFullYear() + '-' + ('0' + (today.getMonth()+1)).substr(-2)
+    },
+
+    methods: {
+      pick: function(dates) {
+        let pickedDate = dates[dates.length-1]
+        let dateObj = new Date(pickedDate)
+        while (dateObj.getDay() != 1) {
+          dateObj.setDate(dateObj.getDate() - 1)
+        }
+        this.dateWeek = []
+        for (let i = 0; i < 7; ++i) {
+          this.dateWeek.push(this.formatDate(dateObj))
+          dateObj.setDate(dateObj.getDate() + 1)
+        }
+      },
+
+      formatDate: function(dateObj) {
+        return dateObj.getFullYear()
+          + '-'
+          + ('0' + (dateObj.getMonth()+1)).substr(-2)
+          + '-'
+          + ('0' + dateObj.getDate()).substr(-2)
+      },
+
+      apply: function () {
+        this.loading = true
+        let url = this.APIHost + '/request'
+        let time
+        switch (this.type) {
+          case 0:
+            url += '/day'
+            time = this.dateDay
+            break
+          case 1:
+            url += '/week'
+            time = this.dateWeek[0]
+            break
+          case 2:
+            url += '/month'
+            time = this.dateMonth + '-01'
+            break
+        }
+
+        this.$axios.post(url, {
+            time: time
+          })
+          .then((res) => {
+            console.log(res)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+          .then(() => {
+            this.loading = false
+          })
+      }
+    }
+  }
+</script>

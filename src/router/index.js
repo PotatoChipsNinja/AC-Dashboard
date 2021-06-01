@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import Home from '../views/Home.vue'
 import Status from '../views/Status.vue'
 import Monitor from '../views/Monitor.vue'
+import Query from '../views/Query.vue'
 import Passwd from '../views/Passwd.vue'
 
 Vue.use(VueRouter)
@@ -24,6 +25,10 @@ const routes = [
   {
     path: '/monitor',
     component: Monitor
+  },
+  {
+    path: '/query',
+    component: Query
   },
   {
     path: '/passwd',
