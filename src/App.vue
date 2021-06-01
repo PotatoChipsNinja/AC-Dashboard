@@ -41,7 +41,7 @@
 
       <v-list nav dense v-show="username">
         <template v-for="menuObj in menu">
-          <v-list-item-group :key="menuObj.name" v-if="menuObj.route" active-class="deep-purple--text text--accent-4">
+          <v-list-item-group :key="menuObj.name" v-if="menuObj.route" color="primary">
             <v-list-item :to="menuObj.route">
               <v-list-item-icon>
                 <v-icon v-text="menuObj.icon"></v-icon>
@@ -55,7 +55,6 @@
             v-else
             :prepend-icon="menuObj.icon"
             no-action
-            active-class="deep-purple--text text--accent-4"
             :value="!isFold(menuObj)"
           >
             <template v-slot:activator>
@@ -68,7 +67,6 @@
               v-for="submenuObj in menuObj.submenu"
               :key="submenuObj.name"
               :to="submenuObj.route"
-              active-class="deep-purple--text text--accent-4"
             >
               <v-list-item-content>
                 <v-list-item-title v-text="submenuObj.name"></v-list-item-title>
