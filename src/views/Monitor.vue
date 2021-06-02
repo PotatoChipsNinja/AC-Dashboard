@@ -22,12 +22,13 @@
                 <v-text-field
                   v-if="editing"
                   class="mt-0 pt-0"
-                  hide-details
+                  hide-details="auto"
                   v-model="edited.cycle"
                   suffix="秒"
                   single-line
                   type="number"
                   style="width: 4rem; font-size: 1rem"
+                  :rules="[(n) => (parseFloat(n) <= 0 ? '必须为正数' : true)]"
                 ></v-text-field>
                 <div v-else class="text--primary" style="font-size: 1rem">
                   {{ saved.cycle }} 秒
@@ -91,7 +92,7 @@
 
           <v-card-actions v-if="!editing">
             <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="edit">
+            <v-btn text color="primary" @click="edit" :disabled="disabled">
               编辑
             </v-btn>
           </v-card-actions>
@@ -101,7 +102,7 @@
               取消
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn text color="success" :loading="loading" @click="apply">
+            <v-btn text color="success" :loading="loading" @click="apply" :disabled="parseFloat(this.edited.cycle) <= 0">
               应用
             </v-btn>
           </v-card-actions>
@@ -114,6 +115,7 @@
           :headers="headers"
           :items="tableItems"
           class="elevation-2 roomTable"
+          no-data-text="无可用数据"
         >
           <template v-slot:[`item.status`]="{ item }">
             <v-chip
@@ -147,12 +149,12 @@
     name: 'Monitor',
 
     data: () => ({
+      disabled: true,
       editing: false,
       loading: false,
       options: [
-        { text: '先来先得', value: 0 },
-        { text: '高速风优先抢占', value: 1 },
-        { text: '时间片轮转', value: 2 },
+        { text: '时间片轮转', value: 0 },
+        { text: '先来先服务', value: 1 }
       ],
       saved: {
         cycle: 0,
@@ -173,10 +175,11 @@
         { text: '费用', value: 'total_cost', align: 'center', class: 'pl-4 pr-0' }
       ],
       statusChip: [
-        { text: '待机', color: 'secondary' },
+        { text: '待机', color: 'grey' },
         { text: '请求送风', color: 'primary' },
         { text: '正在送风', color: 'success' }
-      ]
+      ],
+      timer: null
     }),
 
     computed: {
@@ -205,36 +208,40 @@
 
     mounted: function () {
       this.getInfo()
+      this.getRoomInfo()
+    },
+
+    destroyed: function () {
+      this.timer = clearInterval(this.timer)
     },
 
     methods: {
+      setTimer: function () {
+        this.timer = clearInterval(this.timer)
+        this.timer = setInterval(this.getRoomInfo, parseFloat(this.saved.cycle) * 1000)
+      },
       getInfo: function () {
-        this.saved.cycle = 2
-        this.saved.strategy = 1
-        this.roomInfo = [
-          {
-            id: 123,
-            is_active: true,
-            has_request: true,
-            has_served: false,
-            tar_temp: 23,
-            cur_temp: 25,
-            user_number: 321,
-            total_energy: 23,
-            total_cost: 50
-          },
-          {
-            id: 555,
-            is_active: true,
-            has_request: true,
-            has_served: true,
-            tar_temp: 21,
-            cur_temp: 20,
-            user_number: 333,
-            total_energy: 12,
-            total_cost: 10
-          }
-        ]
+        this.$axios.get('/main/state')
+          .then((res) => {
+            this.saved.cycle = res.data.interval
+            this.saved.strategy = res.data.strategy
+            this.setTimer()
+            this.disabled = false
+          })
+          .catch((err) => {
+            console.log(err)
+            this.$toast.error('与服务器连接出错')
+          })
+      },
+      getRoomInfo: function () {
+        this.$axios.get('/room')
+          .then((res) => {
+            this.roomInfo = res.data
+          })
+          .catch((err) => {
+            console.log(err)
+            this.$toast.error('与服务器连接出错')
+          })
       },
       edit: function () {
         this.edited.cycle = this.saved.cycle
@@ -243,10 +250,36 @@
       },
       apply: function () {
         this.loading = true
-        this.saved.cycle = this.edited.cycle
-        this.saved.strategy = this.edited.strategy
-        this.loading = false
-        this.editing = false
+        this.$axios.post('/main/set_interval', this.edited.cycle.toString())
+          .then(() => {
+            this.saved.cycle = this.edited.cycle
+            this.setTimer()
+            if (this.edited.strategy != this.saved.strategy) {
+              this.$axios.post('/main/set_strategy', this.edited.strategy.toString())
+                .then(() => {
+                  this.saved.strategy = this.edited.strategy
+                  this.$toast.success('设置成功')
+                })
+                .catch((err) => {
+                  console.log(err)
+                  this.$toast.error('与服务器连接出错')
+                })
+                .then(() => {
+                  this.loading = false
+                  this.editing = false
+                })
+            } else {
+              this.$toast.success('设置成功')
+              this.loading = false
+              this.editing = false
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+            this.$toast.error('与服务器连接出错')
+            this.loading = false
+            this.editing = false
+          })
       }
     }
   }
