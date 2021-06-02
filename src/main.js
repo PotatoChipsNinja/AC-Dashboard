@@ -8,7 +8,7 @@ import 'vue-toastification/dist/index.css'
 
 Vue.config.productionTip = false
 
-axios.defaults.baseURL = '/api'
+axios.defaults.baseURL = 'http://zekin.wang:8000'
 Vue.prototype.$axios = axios
 
 Vue.use(Toast, { timeout: 2500 })
