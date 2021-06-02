@@ -141,6 +141,7 @@
       logout: function () {
         localStorage.removeItem('username')
         this.username = null
+        this.$toast('已登出')
         this.$router.replace('/login')
       },
       isFold: function (menuObj) {
