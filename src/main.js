@@ -11,7 +11,7 @@ Vue.config.productionTip = false
 Vue.prototype.APIHost = 'http://zekin.wang:8000'
 Vue.prototype.$axios = axios
 
-Vue.use(Toast)
+Vue.use(Toast, { timeout: 2500 })
 
 new Vue({
   router,

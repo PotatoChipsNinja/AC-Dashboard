@@ -70,6 +70,7 @@
         } else {
           localStorage.setItem('username', 'admin')
           this.$emit('update:username', 'admin')
+          this.$toast.success('登录成功')
           this.$router.replace('/')
         }
       }
