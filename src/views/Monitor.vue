@@ -164,7 +164,7 @@
         { text: '当前温度', value: 'cur_temp', align: 'center', class: 'pl-4 pr-0' },
         { text: '目标温度', value: 'tar_temp', align: 'center', class: 'pl-4 pr-0' },
         { text: '耗能', value: 'total_energy', align: 'center', class: 'pl-4 pr-0' },
-        { text: '费用', value: 'total_cost', align: 'center', class: 'pl-4 pr-0' },
+        { text: '费用', value: 'total_cost', align: 'center', class: 'pl-4 pr-0' }
       ],
       strStatus: ['待机', '请求送风', '正在送风']
     }),

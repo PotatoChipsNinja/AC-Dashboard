@@ -173,10 +173,41 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <v-row>
+      <v-col cols="12">
+        <v-data-table
+          hide-default-footer
+          :headers="headers"
+          :items="tableItems"
+          class="elevation-2"
+          :loading="loadingTable"
+          loading-text="加载中，请稍候"
+          no-data-text="无可用数据"
+        >
+          <template v-slot:[`item.start_time`]="{ item }">
+            {{ formatDate(item.start_time) }}
+          </template>
+          <template v-slot:[`item.end_time`]="{ item }">
+            {{ formatDate(item.end_time) }}
+          </template>
+          <template v-slot:[`item.speed`]="{ item }">
+            <v-chip
+              :color="speedChip[item.speed].color"
+              dark
+            >
+              {{ speedChip[item.speed].text }}
+            </v-chip>
+          </template>
+        </v-data-table>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
+  import qs from 'qs'
+
   export default {
     name: 'Query',
 
@@ -187,8 +218,37 @@
       modal: false,
       type: 0,
       strType: ['日报表', '周报表', '月报表'],
-      loading: false
+      loading: false,
+      result: [],
+      headers: [
+        { text: '房间号', value: 'room_id', align: 'center', class: 'pl-4 pr-0' },
+        { text: '用户号', value: 'user_number', align: 'center', class: 'pl-4 pr-0' },
+        { text: '请求开始时间', value: 'start_time', align: 'center', class: 'pl-4 pr-0' },
+        { text: '请求结束时间', value: 'end_time', align: 'center', class: 'pl-4 pr-0' },
+        { text: '请求风速', value: 'speed', align: 'center', class: 'pl-4 pr-0' },
+        { text: '请求开始时温度', value: 'start_temp', align: 'center', class: 'pl-4 pr-0' },
+        { text: '请求结束时温度', value: 'end_temp', align: 'center', class: 'pl-4 pr-0' },
+        { text: '请求期间能耗', value: 'total_energy', align: 'center', class: 'pl-4 pr-0' },
+        { text: '请求期间开销', value: 'total_cost', align: 'center', class: 'pl-4 pr-0' }
+      ],
+      speedChip: [
+        { text: '低风速', color: 'success' },
+        { text: '中风速', color: 'warning' },
+        { text: '高风速', color: 'error' }
+      ],
+      loadingTable: false
     }),
+
+    computed: {
+      tableItems: function () {
+        let ret = this.result
+        ret.forEach(o => {
+          o.start_time = new Date(o.start_time)
+          o.end_time = new Date(o.end_time)
+        })
+        return ret
+      }
+    },
 
     mounted: function () {
       let today = new Date()
@@ -221,7 +281,10 @@
 
       apply: function () {
         this.loading = true
-        let url = this.APIHost + '/request'
+        this.loadingTable = true
+        this.result = []
+
+        let url = '/request'
         let time
         switch (this.type) {
           case 0:
@@ -238,11 +301,9 @@
             break
         }
 
-        this.$axios.post(url, {
-            time: time
-          })
+        this.$axios.post(url + '?' + qs.stringify({ time: time }))
           .then((res) => {
-            console.log(res)
+            this.result = res.data
           })
           .catch((err) => {
             console.log(err)
@@ -250,6 +311,7 @@
           })
           .then(() => {
             this.loading = false
+            this.loadingTable = false
           })
       }
     }
