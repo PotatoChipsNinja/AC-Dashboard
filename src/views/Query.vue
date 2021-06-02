@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="text-h5 my-2">请求记录查询</div>
+    <div class="text-h5 my-2">送风请求记录</div>
     <v-divider></v-divider>
     <v-row class="mt-2">
       <v-col style="max-width: 34rem">

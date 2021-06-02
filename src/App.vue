@@ -112,15 +112,15 @@
           ]
         },
         {
-          name: '报表管理',
+          name: '报表查询',
           icon: 'mdi-credit-card-check-outline',
           submenu: [
             {
-              name: '请求记录查询',
+              name: '送风请求记录',
               route: '/query'
             },
             {
-              name: '统计信息',
+              name: '用量统计',
               route: '/stastic'
             }
           ]

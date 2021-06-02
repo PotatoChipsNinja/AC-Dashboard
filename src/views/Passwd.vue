@@ -96,7 +96,8 @@
           // 上传新密码
           let success = true
           if (success) {
-            this.$toast.success('密码修改成功')
+            //this.$toast.success('密码修改成功')
+            this.$toast.warning('该服务暂不支持')
             this.input.old = ''
             this.input.new = ''
             this.input.repeat = ''

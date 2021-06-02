@@ -84,28 +84,28 @@
         {
           color: '#1F7087',
           title: '状态管理',
-          description: '状态管理的描述...',
+          description: '查看主机的运行状态，并设置工作模式和工作温度...',
           icon: 'mdi-camera-control',
           route: '/status'
         },
         {
           color: '#952175',
           title: '监控和调度',
-          description: '监控和调度的描述...',
+          description: '监测从机的运行状态，并设置监测周期和调度策略...',
           icon: 'mdi-monitor-dashboard',
           route: '/monitor'
         },
         {
           color: '#26c6da',
-          title: '请求记录查询',
-          description: '请求记录查询的描述...',
+          title: '送风请求记录',
+          description: '以不同时间粒度查询从机的送风请求记录...',
           icon: 'mdi-database-search',
           route: '/query'
         },
         {
           color: '#9e9d24',
-          title: '统计信息',
-          description: '统计信息的描述',
+          title: '用量统计',
+          description: '以不同时间粒度查询从机的用量统计...',
           icon: 'mdi-chart-areaspline',
           route: '/stastic'
         }

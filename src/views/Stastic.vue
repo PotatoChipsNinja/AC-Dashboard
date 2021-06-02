@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="text-h5 my-2">统计信息</div>
+    <div class="text-h5 my-2">用量统计</div>
     <v-divider></v-divider>
     <v-row class="mt-2">
       <v-col style="max-width: 34rem">
