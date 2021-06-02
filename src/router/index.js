@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import Status from '../views/Status.vue'
 import Monitor from '../views/Monitor.vue'
 import Query from '../views/Query.vue'
+import Stastic from '../views/Stastic.vue'
 import Passwd from '../views/Passwd.vue'
 
 Vue.use(VueRouter)
@@ -29,6 +30,10 @@ const routes = [
   {
     path: '/query',
     component: Query
+  },
+  {
+    path: '/stastic',
+    component: Stastic
   },
   {
     path: '/passwd',
