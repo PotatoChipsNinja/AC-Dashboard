@@ -195,6 +195,7 @@
             <v-chip
               :color="speedChip[item.speed].color"
               dark
+              small
             >
               {{ speedChip[item.speed].text }}
             </v-chip>
@@ -258,7 +259,7 @@
     },
 
     methods: {
-      pick: function(dates) {
+      pick: function (dates) {
         let pickedDate = dates[dates.length-1]
         let dateObj = new Date(pickedDate)
         while (dateObj.getDay() != 1) {
@@ -271,7 +272,7 @@
         }
       },
 
-      formatDate: function(dateObj) {
+      formatDate: function (dateObj) {
         return dateObj.getFullYear()
           + '-'
           + ('0' + (dateObj.getMonth()+1)).substr(-2)

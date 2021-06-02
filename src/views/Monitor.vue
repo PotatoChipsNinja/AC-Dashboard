@@ -116,7 +116,13 @@
           class="elevation-2 roomTable"
         >
           <template v-slot:[`item.status`]="{ item }">
-            {{ strStatus[item.status] }}
+            <v-chip
+              :color="statusChip[item.status].color"
+              dark
+              small
+            >
+              {{ statusChip[item.status].text }}
+            </v-chip>
           </template>
           <template v-slot:[`item.cur_temp`]="{ item }">
             {{ item.cur_temp }} &deg;C
@@ -166,7 +172,11 @@
         { text: '耗能', value: 'total_energy', align: 'center', class: 'pl-4 pr-0' },
         { text: '费用', value: 'total_cost', align: 'center', class: 'pl-4 pr-0' }
       ],
-      strStatus: ['待机', '请求送风', '正在送风']
+      statusChip: [
+        { text: '待机', color: 'secondary' },
+        { text: '请求送风', color: 'primary' },
+        { text: '正在送风', color: 'success' }
+      ]
     }),
 
     computed: {
