@@ -212,9 +212,9 @@
     name: 'Query',
 
     data: () => ({
-      dateDay: null,
+      dateDay: '',
       dateWeek: [],
-      dateMonth: null,
+      dateMonth: '',
       modal: false,
       type: 0,
       strType: ['日报表', '周报表', '月报表'],
