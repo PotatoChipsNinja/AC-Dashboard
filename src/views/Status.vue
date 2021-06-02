@@ -80,7 +80,7 @@
 
           <v-card-actions v-if="!editing">
             <v-spacer></v-spacer>
-            <v-btn text color="primary" @click="edit">
+            <v-btn text color="primary" @click="edit" :disabled="disabled">
               编辑
             </v-btn>
           </v-card-actions>
@@ -105,6 +105,7 @@
     name: 'Status',
 
     data: () => ({
+      disabled: true,
       editing: false,
       loading: false,
       isRunning: false,
@@ -124,9 +125,17 @@
 
     methods: {
       getInfo: function () {
-        this.isRunning = true
-        this.saved.modeWarm = true
-        this.saved.temp = 26
+        this.$axios.get('/main/state')
+          .then((res) => {
+            this.isRunning = res.data.work_mode == 1
+            this.saved.modeWarm = res.data.mode == 1
+            this.saved.temp = res.data.work_temp
+            this.disabled = false
+          })
+          .catch((err) => {
+            console.log(err)
+            this.$toast.error('与服务器连接出错')
+          })
       },
       edit: function () {
         this.edited.modeWarm = this.saved.modeWarm
@@ -135,10 +144,29 @@
       },
       apply: function () {
         this.loading = true
-        this.saved.modeWarm = this.edited.modeWarm
-        this.saved.temp = this.edited.temp
-        this.loading = false
-        this.editing = false
+        this.$axios.post('/main/set_mode', this.edited.modeWarm ? '1' : '0')
+          .then(() => {
+            this.saved.modeWarm = this.edited.modeWarm
+            this.$axios.post('/main/set_temp', this.edited.temp)
+              .then(() => {
+                this.saved.temp = this.edited.temp
+                this.$toast.success('设置成功')
+              })
+              .catch((err) => {
+                console.log(err)
+                this.$toast.error('与服务器连接出错')
+              })
+              .then(() => {
+                this.loading = false
+                this.editing = false
+              })
+          })
+          .catch((err) => {
+            console.log(err)
+            this.$toast.error('与服务器连接出错')
+            this.loading = false
+            this.editing = false
+          })
       }
     }
   }
