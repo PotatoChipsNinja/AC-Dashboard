@@ -61,6 +61,10 @@
   export default {
     name: 'Passwd',
 
+    props: {
+      username: String
+    },
+
     data: () => ({
       loading: false,
       input: {
@@ -85,7 +89,6 @@
         this.errMsg.old = ''
         this.errMsg.new = ''
         this.errMsg.repeat = ''
-        this.loading = true
         if (!this.input.old) {
           this.errMsg.old = '请输入当前密码'
         } else if (!this.input.new) {
@@ -93,19 +96,37 @@
         } else if (this.input.repeat != this.input.new) {
           this.errMsg.repeat = '两次输入的密码不一致'
         } else {
-          // 上传新密码
-          let success = true
-          if (success) {
-            //this.$toast.success('密码修改成功')
-            this.$toast.warning('该服务暂不支持')
-            this.input.old = ''
-            this.input.new = ''
-            this.input.repeat = ''
-          } else {
-            this.errMsg.old = '密码错误'
-          }
+          this.loading = true
+          this.$axios.post('/auth/login', {
+            username: this.username,
+            password: this.input.old
+          })
+            .then(() => {
+              this.$axios.post('/auth/set_password', this.input.new)
+                .then(() => {
+                  this.$toast.success('密码修改成功')
+                  this.input.old = ''
+                  this.input.new = ''
+                  this.input.repeat = ''
+                })
+                .catch((err) => {
+                  console.log(err)
+                  this.$toast.error('与服务器连接出错')
+                })
+                .then(() => {
+                  this.loading = false
+                })
+            })
+            .catch((err) => {
+              if (err.response && err.response.status == 403) {
+                this.errMsg.old = '密码错误'
+              } else {
+                console.log(err)
+                this.$toast.error('与服务器连接出错')
+              }
+              this.loading = false
+            })
         }
-        this.loading = false
       }
     }
   }
