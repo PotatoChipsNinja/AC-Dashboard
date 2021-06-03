@@ -75,7 +75,7 @@
               this.$router.replace('/')
             })
             .catch((err) => {
-              if (err.response.status == 403) {
+              if (err.response && err.response.status == 403) {
                 this.usernameErrMsg = this.passwordErrMsg = '用户名或密码错误'
               } else {
                 console.log(err)
