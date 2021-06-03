@@ -16,7 +16,7 @@
             prepend-icon="mdi-account"
             label="用户名"
             :error-messages="usernameErrMsg"
-            @input="usernameErrMsg = ''"
+            @input="usernameErrMsg = passwordErrMsg = ''"
             clearable
           ></v-text-field>
           <v-text-field
@@ -29,7 +29,7 @@
             :type="show ? 'text' : 'password'"
             @click:append="show = !show"
             :error-messages="passwordErrMsg"
-            @input="passwordErrMsg = ''"
+            @input="usernameErrMsg = passwordErrMsg = ''"
             clearable
           ></v-text-field>
         </v-card-text>
@@ -63,15 +63,25 @@
           this.usernameErrMsg = '用户名不能为空'
         } else if (!this.inputPassword) {
           this.passwordErrMsg = '密码不能为空'
-        } else if (this.inputUsername != 'admin') {
-          this.usernameErrMsg = '用户不存在'
-        } else if (this.inputPassword != '123456') {
-          this.passwordErrMsg = '密码错误'
         } else {
-          localStorage.setItem('username', 'admin')
-          this.$emit('update:username', 'admin')
-          this.$toast.success('登录成功')
-          this.$router.replace('/')
+          this.$axios.post('/auth/login', {
+            username: this.inputUsername,
+            password: this.inputPassword
+          })
+            .then(() => {
+              localStorage.setItem('username', 'admin')
+              this.$emit('update:username', 'admin')
+              this.$toast.success('登录成功')
+              this.$router.replace('/')
+            })
+            .catch((err) => {
+              if (err.response.status == 403) {
+                this.usernameErrMsg = this.passwordErrMsg = '用户名或密码错误'
+              } else {
+                console.log(err)
+                this.$toast.error('与服务器连接出错')
+              }
+            })
         }
       }
     }
