@@ -127,16 +127,16 @@
             </v-chip>
           </template>
           <template v-slot:[`item.cur_temp`]="{ item }">
-            {{ item.cur_temp }} &deg;C
+            {{ item.cur_temp ? item.cur_temp.toFixed(2) + ' &deg;C' : 'N/A' }}
           </template>
           <template v-slot:[`item.tar_temp`]="{ item }">
-            {{ item.tar_temp }} &deg;C
+            {{ item.tar_temp ? item.tar_temp.toFixed(2) + ' &deg;C' : 'N/A' }}
           </template>
           <template v-slot:[`item.total_energy`]="{ item }">
-            {{ item.total_energy }} J
+            {{ item.total_energy ? item.total_energy.toFixed(2) + ' kW·h' : 'N/A' }}
           </template>
           <template v-slot:[`item.total_cost`]="{ item }">
-            {{ item.total_cost }} 元
+            {{ item.total_cost ? item.total_cost.toFixed(2) + ' 元' : 'N/A' }}
           </template>
         </v-data-table>
       </v-col>
@@ -175,8 +175,9 @@
         { text: '费用', value: 'total_cost', align: 'center', class: 'pl-4 pr-0' }
       ],
       statusChip: [
-        { text: '待机', color: 'grey' },
-        { text: '请求送风', color: 'primary' },
+        { text: '关机', color: 'grey' },
+        { text: '待机', color: 'info' },
+        { text: '请求送风', color: 'warning' },
         { text: '正在送风', color: 'success' }
       ],
       timer: null
@@ -194,12 +195,14 @@
       tableItems: function () {
         let ret = this.roomInfo
         ret.forEach(o => {
-          if (!o.is_active || !o.has_request) {
-            o.status = 0  // 待机
+          if (!o.is_active) {
+            o.status = 0  // 关机
+          } else if (!o.has_request) {
+            o.status = 1  // 待机
           } else if (!o.has_served) {
-            o.status = 1  // 请求送风
+            o.status = 2  // 请求送风
           } else {
-            o.status = 2  // 正在送风
+            o.status = 3  // 正在送风
           }
         })
         return ret

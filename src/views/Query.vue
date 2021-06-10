@@ -200,6 +200,12 @@
               {{ speedChip[item.speed].text }}
             </v-chip>
           </template>
+          <template v-slot:[`item.total_energy`]="{ item }">
+            {{ item.total_energy.toFixed(2) }} kW·h
+          </template>
+          <template v-slot:[`item.total_cost`]="{ item }">
+            {{ item.total_cost.toFixed(2) }} 元
+          </template>
         </v-data-table>
       </v-col>
     </v-row>

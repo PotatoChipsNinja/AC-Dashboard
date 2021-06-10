@@ -189,10 +189,10 @@
             {{ item.open_count }} 次
           </template>
           <template v-slot:[`item.total_energy`]="{ item }">
-            {{ item.total_energy }} J
+            {{ item.total_energy.toFixed(2) }} kW·h
           </template>
           <template v-slot:[`item.total_cost`]="{ item }">
-            {{ item.total_cost }} 元
+            {{ item.total_cost.toFixed(2) }} 元
           </template>
         </v-data-table>
       </v-col>
